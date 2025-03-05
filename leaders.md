@@ -1,4 +1,5 @@
 ### Leaders
-* [Leader Name](mailto:leader.email@owasp.org)
-* [Leader Name](mailto:leader.email@owasp.org)
-* [Leader Name](mailto:leader.email@owasp.org)
+* [Kim Wuyts](mailto:kim.wuyts@owasp.org)
+* [Izar Tarandach](mailto:kim.wuyts@owasp.org)
+* [Matthew Coles](mailto:kim.wuyts@owasp.org)
+* [Avi Douglen](mailto:kim.wuyts@owasp.org)
