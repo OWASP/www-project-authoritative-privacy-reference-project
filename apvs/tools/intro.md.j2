@@ -1,0 +1,44 @@
+---
+layout: default
+title: "Introduction"
+nav_order: 1
+permalink: /
+---
+
+# {{ intro.title }}
+
+<div markdown="1" style="border-left:4px solid #b7791f;background:rgba(183,121,31,.10);padding:.6em 1em;margin:1em 0;border-radius:4px;">
+<strong>{{ status.headline }}</strong>
+{{ status.intro_page }}
+</div>
+
+{% for s in intro.sections %}
+## {{ s.heading }}
+
+{% for b in s.blocks %}
+{% if b.text is defined %}
+{{ b.text | para }}
+{% elif b.levels is defined %}
+| Level | Meaning | What verification needs |
+|---|---|---|
+{% for l in b.levels -%}
+| {{ l.level | dot_level }} | {{ l.meaning | cell }} | {{ l.needs | cell }} |
+{% endfor %}
+{% elif b.chapters_table is defined %}
+| Chapter | Title | Sections | Requirements | 🟢 L1 | 🟡 L2 | 🟣 L3 |
+|---|---|---:|---:|---:|---:|---:|
+{% for c in chapters -%}
+| {{ c.number }} | [{{ c.title }}]({{ c.file }}) | {{ c.sections | length }} | {{ c.n }} | {{ c.l1 }} | {{ c.l2 }} | {{ c.l3 }} |
+{% endfor -%}
+| | **Total** | | **{{ total }}** | **{{ l1 }}** | **{{ l2 }}** | **{{ l3 }}** |
+{% elif b.bullets is defined %}
+{% for i in b.bullets -%}
+- {{ i }}
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% endfor %}
+
+---
+
+<p style="opacity:.7;font-size:.9em">Next: <a href="{{ chapters[0].file }}">Chapter 1, {{ chapters[0].title }}</a> · <a href="{{ appendix.file }}">{{ appendix.label }}</a></p>
