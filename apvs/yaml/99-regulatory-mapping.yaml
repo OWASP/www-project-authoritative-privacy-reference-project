@@ -1,0 +1,1384 @@
+mapping:
+  title: 'Appendix A: Regulatory Mapping'
+  version: '0.6'
+  lead: >-
+    This appendix is reference material and sits outside the numbered chapters. APVS is organized around system design, and regulations are organized around legal duties, so the appendix connects the two from both directions. Each regulation has its own section below, with an overview, the detail for every provision and the provisions that APVS has nothing to say about. The last section starts from the requirements and lists the provisions each one supports.
+  coverage_legend: >-
+    Coverage tells you how far APVS goes for a provision. **●●● Direct** means the requirements cover the application-level obligation fairly completely, **●●○ Partial** means they cover part of it, and **●○○ Supporting** means they yield evidence or building blocks for it.
+  gdpr:
+    regulation: Regulation (EU) 2016/679 (GDPR)
+    intro: |
+      This mapping lists the GDPR articles that an application has to support technically and shows which APVS requirements help an application meet each one. Coverage "direct" means the APVS requirements address the application-level obligation fairly completely, "partial" means they address part of it, and "supporting" means they yield evidence or building blocks that other measures must complete. APVS is a verification standard for applications, so the mapping is a guide for engineers and cannot replace legal analysis of a specific processing activity.
+    articles:
+    - article: Art. 5(1)(a)
+      title: Lawfulness, fairness and transparency
+      group: Principles
+      obligation: >-
+        Personal data must be processed lawfully, fairly and in a way the data subject can see and understand.
+      coverage: partial
+      apvs:
+      - id: 4.1.1
+        note: >-
+          A versioned notice shown before collection gives the data subject the information needed to understand the processing.
+      - id: 4.1.2
+        note: >-
+          Notices tied to each processing activity keep the information relevant at the point where data is collected.
+      - id: 4.1.7
+        note: >-
+          Advance notification of material changes keeps later processing within what people were told.
+      - id: 4.2.9
+        note: >-
+          Prohibiting misleading necessity, urgency and social proof claims supports fair treatment around privacy choices.
+      - id: 4.3.2
+        note: >-
+          Privacy settings that really change processing keep the interface truthful about what happens to data.
+      - id: 4.1.3
+        note: Required notice fields make the processing transparent to the data subject.
+    - article: Art. 5(1)(b)
+      title: Purpose limitation
+      group: Principles
+      obligation: >-
+        Data may be collected only for specified, explicit and legitimate purposes and may not be used in ways that are incompatible with them.
+      coverage: direct
+      apvs:
+      - id: 1.2.2
+        note: >-
+          A specific purpose must be recorded for every data element before collection starts, with a build check against the register.
+      - id: 1.4.3
+        note: >-
+          Every processing operation needs a registered specific purpose before it runs, which makes undeclared uses detectable.
+      - id: 1.2.1
+        note: Record-level purpose tags record the collection purposes against which use can be checked.
+      - id: 3.2.5
+        note: >-
+          Runtime checks compare each use of data with its collection purpose and timeframe and require a prior compatibility record for secondary uses.
+      - id: 2.1.3
+        note: Reassessing necessity when a purpose ends removes data whose purpose has ended.
+      - id: 4.1.3
+        note: >-
+          The notice states the purpose for each processing activity, which anchors what the data subject was told.
+    - article: Art. 5(1)(c)
+      title: Data minimisation
+      group: Principles
+      obligation: Personal data must be adequate, relevant and limited to what the purposes require.
+      coverage: direct
+      apvs:
+      - id: 2.1.1
+        note: >-
+          Each data element must be necessary for its documented purpose, and merely useful elements are excluded.
+      - id: 2.1.2
+        note: >-
+          Necessary elements are collected in their least detailed form, at the lowest volume and frequency that serves the purpose.
+      - id: 2.1.4
+        note: Inferred and derived data face the same necessity and precision limits as collected data.
+      - id: 2.1.5
+        note: >-
+          Core functions must work without optional data, so optional fields cannot become mandatory.
+      - id: 2.1.6
+        note: Aggregated output replaces raw data where it satisfies the purpose.
+      - id: 2.1.7
+        note: Longitudinal data loses granularity on a schedule as it ages.
+      - id: 2.2.1
+        note: Location data is held at the least precise level on a defined scale.
+      - id: 2.2.2
+        note: Age data is reduced to a threshold check or the coarsest level that works.
+      - id: 2.2.3
+        note: Identity data is held at the least linkable level that the feature allows.
+      - id: 2.2.4
+        note: Photo metadata is stripped beyond the documented level.
+      - id: 2.2.5
+        note: File metadata such as author and path details is limited to what the feature needs.
+      - id: 2.2.6
+        note: >-
+          Communication history is retained only at the least detailed level for metadata and content.
+      - id: 2.2.7
+        note: Live stream capture is limited to the lowest fidelity that works.
+      - id: 3.1.1
+        note: Data whose purpose is met during processing is kept in memory only and never persisted.
+      - id: 3.2.4
+        note: >-
+          Processing that can run on the user's device does so, and only the result reaches the backend.
+      - id: 3.4.2
+        note: Exports and transmissions carry only the fields the purpose of the exchange requires.
+    - article: Art. 5(1)(d)
+      title: Accuracy
+      group: Principles
+      obligation: >-
+        Personal data must be accurate and kept up to date, and inaccurate data must be corrected or erased without delay.
+      coverage: partial
+      apvs:
+      - id: 3.3.4
+        note: >-
+          A corrected value must reach replicas, caches and search indexes within a defined and enforced period.
+      - id: 1.2.3
+        note: >-
+          A system-set collection timestamp shows how current each record is and advances on each re-collection.
+      - id: 1.2.1
+        note: >-
+          Provenance and lineage tags tell a team how reliable a record is and where a correction must start.
+      - id: 5.1.2
+        note: >-
+          Administrative tooling lets authorized staff locate data for a specific person, which is where a correction starts.
+    - article: Art. 5(1)(e)
+      title: Storage limitation
+      group: Principles
+      obligation: Data may be kept in identifiable form only as long as the purposes require.
+      coverage: direct
+      apvs:
+      - id: 3.3.1
+        note: A minimal retention period or its determining criteria is defined for every data class.
+      - id: 3.3.3
+        note: Data is deleted automatically when its retention period expires, with no manual step.
+      - id: 3.3.2
+        note: Where immediate deletion is infeasible, a maximum residual window is defined and enforced.
+      - id: 3.2.1
+        note: Data created for a bounded operation is deleted when the operation completes.
+      - id: 3.2.2
+        note: >-
+          Completion of an operation triggers deletion directly, without waiting for a periodic cleanup.
+      - id: 3.5.1
+        note: Deletion obligations are met by secure deletion from primary stores.
+      - id: 3.5.3
+        note: Deletion reaches online and offline backups or is filtered on restore.
+      - id: 3.5.4
+        note: Deletion covers logs that contain personal data.
+      - id: 3.5.5
+        note: Deletion covers caches, temporary files and intermediate pipeline output.
+      - id: 1.2.3
+        note: The collection timestamp is the reference point for age-based retention.
+      - id: 2.1.3
+        note: Data is removed when a processing activity changes or retires.
+    - article: Art. 5(1)(f)
+      title: Integrity and confidentiality
+      group: Principles
+      obligation: >-
+        Data must be processed with appropriate security against unauthorized access, loss, destruction or damage.
+      coverage: supporting
+      apvs:
+      - id: 3.3.6
+        note: >-
+          Keeping the pseudonym mapping in a separate store limits what a breach of the main system reveals.
+      - id: 3.3.7
+        note: Pseudonymous identifiers in logs reduce exposure of identities to those who read them.
+      - id: 3.4.3
+        note: Access logging on sensitive data records who touched what and when.
+      - id: 3.5.1
+        note: Secure deletion prevents recovery of data that should no longer exist.
+    - article: Art. 5(2)
+      title: Accountability
+      group: Principles
+      obligation: The controller must be able to demonstrate compliance with the principles in Art. 5(1).
+      coverage: supporting
+      apvs:
+      - id: 1.1.1
+        note: >-
+          An in-system catalog of personal data elements provides a verifiable basis for showing what is processed and why.
+      - id: 1.4.3
+        note: The purpose register is evidence that each operation had a declared purpose beforehand.
+      - id: 3.5.7
+        note: >-
+          Deletion logs show that deletion obligations were carried out without retaining the deleted data.
+      - id: 4.2.6
+        note: Consent records show what was agreed, when and under which notice version.
+      - id: 3.4.3
+        note: Access logs give an audit trail of who used sensitive data and for what purpose.
+    - article: Art. 6(1)(a)
+      title: Lawfulness of processing (consent as legal basis)
+      group: Lawfulness and consent
+      obligation: >-
+        Where consent is the legal basis, it must be a freely given, specific, informed and unambiguous choice that exists before the processing starts.
+      coverage: partial
+      apvs:
+      - id: 4.2.2
+        note: Consent controls default to off, so consent always comes from an affirmative act.
+      - id: 4.2.3
+        note: Consent is obtained separately for each purpose, which keeps it specific.
+      - id: 4.2.1
+        note: Accept and reject options have equal prominence and effort, which keeps the choice free.
+      - id: 4.2.9
+        note: Interfaces may not misstate necessity or urgency to push a decision.
+      - id: 4.2.10
+        note: A declined request is not repeated, so refusal is respected.
+      - id: 4.2.8
+        note: Non-essential trackers stay dormant until a consent signal is recorded.
+      - id: 4.2.6
+        note: The consent record documents the data subject, purpose, notice version and mechanism.
+      - id: 4.2.7
+        note: >-
+          Consent is not demanded for non-essential processing as a condition of core functionality, which supports consent that is freely given.
+      - id: 4.2.5
+        note: Withdrawal is as easy as giving consent and sits in the same context.
+      - id: 4.1.1
+        note: A notice before collection gives the information that makes consent informed.
+    - article: Art. 6(4)
+      title: Lawfulness of processing (further processing)
+      group: Lawfulness and consent
+      obligation: >-
+        Processing for a purpose other than the original one needs a compatibility assessment or a separate legal basis.
+      coverage: partial
+      apvs:
+      - id: 3.2.5
+        note: >-
+          A dated compatibility assessment or legal basis entry must exist in the purpose register before any secondary use begins.
+      - id: 1.4.3
+        note: >-
+          The register of processing purposes gives the place where such a record is checked against actual operations.
+    - article: Art. 7(1)
+      title: Conditions for consent (demonstrating consent)
+      group: Lawfulness and consent
+      obligation: The controller must be able to demonstrate that the data subject consented.
+      coverage: direct
+      apvs:
+      - id: 4.2.6
+        note: >-
+          Each consent transaction is recorded automatically with identity, time, purpose, notice version and mechanism.
+      - id: 4.1.1
+        note: Versioned notices make it possible to show exactly what the person saw when consenting.
+    - article: Art. 7(2)
+      title: Conditions for consent (distinguishable request)
+      group: Lawfulness and consent
+      obligation: >-
+        A consent request inside a wider declaration must be clearly distinguishable from other matters and written in plain language.
+      coverage: direct
+      apvs:
+      - id: 4.2.4
+        note: >-
+          Consent requests are separated visually and structurally from terms and registration content.
+      - id: 4.2.3
+        note: One consent act covers one purpose, so declarations are not bundled.
+      - id: 4.3.3
+        note: Consent labels avoid double negatives and show the consequence of each option.
+    - article: Art. 7(3)
+      title: Conditions for consent (withdrawal)
+      group: Lawfulness and consent
+      obligation: Consent can be withdrawn at any time, as easily as it was given.
+      coverage: direct
+      apvs:
+      - id: 4.2.5
+        note: Withdrawal takes no more steps than giving consent and is available in the same context.
+      - id: 4.3.4
+        note: >-
+          A setting that withdraws consent changes actual processing immediately or within a disclosed period.
+      - id: 5.2.2
+        note: A changed setting must stop or start processing within a disclosed period.
+    - article: Art. 7(4)
+      title: Conditions for consent (freely given)
+      group: Lawfulness and consent
+      obligation: >-
+        Consent is not freely given where a service depends on consent to processing that the service does not need.
+      coverage: direct
+      apvs:
+      - id: 4.2.7
+        note: Core functionality must remain usable without consent to non-essential processing.
+      - id: 2.1.5
+        note: Optional data cannot be demanded by backend logic for core functions.
+      - id: 4.2.3
+        note: Accepting one purpose cannot depend on accepting another.
+    - article: Art. 8
+      title: Conditions applicable to child's consent in relation to information society services
+      group: Lawfulness and consent
+      obligation: >-
+        Where consent applies to online services offered to a child, the child's age must be established and a parent or guardian must authorize consent below the national age threshold.
+      coverage: supporting
+      apvs:
+      - id: 2.2.2
+        note: >-
+          Age checks use a threshold test and discard the date of birth, which lets a service determine the child threshold without keeping birth data.
+    - article: Art. 9
+      title: Processing of special categories of personal data
+      group: Lawfulness and consent
+      obligation: >-
+        Special category data may be processed only under a specific exception, and the application should treat it with extra care.
+      coverage: supporting
+      apvs:
+      - id: 3.1.2
+        note: >-
+          Users are nudged before they submit unexpected special category data, which reduces accidental collection.
+      - id: 3.4.3
+        note: Access to special category data is logged with accessor, time and purpose.
+      - id: 2.1.4
+        note: >-
+          Inference of sensitive attributes such as health status is held to the same necessity limits as direct collection.
+      - id: 3.4.2
+        note: >-
+          Exports carry only the data the purpose requires, which limits the spread of special category data.
+    - article: Art. 11
+      title: Processing which does not require identification
+      group: Data subject rights
+      obligation: >-
+        A controller need not keep or gather extra information only to identify people when its purposes do not require identification.
+      coverage: supporting
+      apvs:
+      - id: 2.2.3
+        note: Identity is held at the least linkable level, down to anonymous where the feature allows.
+      - id: 2.1.2
+        note: >-
+          The minimum sufficient form includes no personal data at all where a feature can be redesigned to avoid it.
+      - id: 1.3.2
+        note: >-
+          The identifier index keeps identifiers only as long as rights fulfilment and documented purposes require.
+      - id: 5.1.3
+        note: Identity checks for rights requests are proportionate and do not collect more than needed.
+    - article: Art. 12
+      title: >-
+        Transparent information, communication and modalities for the exercise of the rights of the data subject
+      group: Transparency
+      obligation: >-
+        Information and rights communications must be concise, intelligible and easy to reach, and the controller must facilitate requests and verify requesters proportionately.
+      coverage: partial
+      apvs:
+      - id: 4.1.1
+        note: Notices must use plain language and be accessible to both people and machines.
+      - id: 4.1.2
+        note: Notices are given per processing activity, which keeps them concise and relevant.
+      - id: 4.2.4
+        note: Consent text is presented separately and in plain language.
+      - id: 5.1.1
+        note: Registered users can start rights requests from inside the application.
+      - id: 5.1.4
+        note: The system explains how to use privacy features or request a human process.
+      - id: 5.1.3
+        note: >-
+          Identity verification before fulfilling a request is proportionate to the right and the data.
+      - id: 5.1.2
+        note: >-
+          Administrative tools let staff carry out requests without direct database access or custom scripting.
+      - id: 4.3.1
+        note: Privacy settings are reachable through standard menus without contacting support.
+    - article: Art. 13
+      title: Information to be provided where personal data are collected from the data subject
+      group: Transparency
+      obligation: >-
+        At collection the controller must tell the data subject about purposes, recipients, retention, rights, automated decision-making and any new purpose.
+      coverage: partial
+      apvs:
+      - id: 4.1.1
+        note: A notice is presented at or before collection.
+      - id: 4.1.2
+        note: The information is given for each processing activity.
+      - id: 4.1.3
+        note: >-
+          Categories, purposes, retention and recipients are stated for each activity (Art. 13(1)(c), (e), 13(2)(a)).
+      - id: 4.1.4
+        note: Recipients are named or described specifically (Art. 13(1)(e)).
+      - id: 4.1.5
+        note: A specific retention period or its criteria is stated (Art. 13(2)(a)).
+      - id: 4.1.8
+        note: Automated decision-making, its logic and its consequences are disclosed (Art. 13(2)(f)).
+      - id: 4.1.7
+        note: Data subjects are told before new purposes take effect (Art. 13(3)).
+      - id: 5.1.4
+        note: The system explains how rights can be exercised (Art. 13(2)(b)).
+      - id: 1.4.1
+        note: The interface inventory gives the factual basis for the recipient disclosures.
+      - id: 1.4.2
+        note: >-
+          Passive third-party collectors and the recipients of data are inventoried, which feeds the recipient disclosure.
+    - article: Art. 14
+      title: >-
+        Information to be provided where personal data have not been obtained from the data subject
+      group: Transparency
+      obligation: >-
+        When data comes from another source, the controller must inform the data subject, including the source, within the set time limits.
+      coverage: partial
+      apvs:
+      - id: 4.1.6
+        note: >-
+          A notice mechanism with a defined and disclosed maximum delay covers indirectly collected data (Art. 14(3)).
+      - id: 1.2.1
+        note: >-
+          Provenance tags record whether data was provided, obtained from a third party or inferred, which feeds the source disclosure (Art. 14(2)(f)).
+      - id: 1.4.1
+        note: The inventory of incoming interfaces identifies the flows that trigger a notice.
+      - id: 4.1.3
+        note: Categories, purposes, retention and recipients are stated for each activity.
+      - id: 4.1.4
+        note: Recipients are named or described specifically.
+      - id: 4.1.5
+        note: A specific retention period or its criteria is stated.
+      - id: 4.1.8
+        note: Automated decision-making is disclosed with its logic and consequences.
+      - id: 4.1.7
+        note: Changes to purposes or recipients are notified before they take effect (Art. 14(4)).
+    - article: Art. 15
+      title: Right of access by the data subject
+      group: Data subject rights
+      obligation: >-
+        A data subject can learn whether their data is processed and obtain a copy together with details such as purposes, recipients, retention and source.
+      coverage: partial
+      apvs:
+      - id: 1.3.1
+        note: >-
+          The identifier index finds all data about a person across every store, which an access response depends on.
+      - id: 1.3.2
+        note: Multiple identifiers resolve to one subject, so access responses are complete.
+      - id: 3.4.4
+        note: >-
+          Users can retrieve all their data in a structured, described, machine-readable export (Art. 15(3)).
+      - id: 5.1.1
+        note: Registered users can start an access request from within the application.
+      - id: 5.1.2
+        note: Administrative tools locate, retrieve and export a subject's data without database access.
+      - id: 5.1.3
+        note: Identity verification prevents release of data to the wrong person.
+      - id: 1.2.1
+        note: >-
+          Record-level purpose and provenance tags supply the purposes and source details (Art. 15(1)(a), (g)).
+      - id: 4.3.7
+        note: A personalized privacy report shows what processing is active and what is shared.
+      - id: 3.4.3
+        note: Access logs that capture purpose allow reporting back who used the data and why.
+    - article: Art. 16
+      title: Right to rectification
+      group: Data subject rights
+      obligation: Inaccurate personal data must be corrected without undue delay.
+      coverage: partial
+      apvs:
+      - id: 3.3.4
+        note: Corrections propagate to all storage components within a defined and enforced period.
+      - id: 5.1.2
+        note: Administrative tools support rectification of a specific subject's data.
+      - id: 5.1.1
+        note: Users can start a rectification request from within the application.
+      - id: 5.1.3
+        note: Identity verification protects against changes requested by the wrong person.
+    - article: Art. 17
+      title: Right to erasure ('right to be forgotten')
+      group: Data subject rights
+      obligation: >-
+        Data must be erased without undue delay when a ground in the article applies, including loss of necessity and withdrawal of consent.
+      coverage: direct
+      apvs:
+      - id: 3.5.2
+        note: >-
+          A deletion request triggers the same secure deletion workflow used for retention expiry, with no manual database work.
+      - id: 3.5.1
+        note: Erasure uses secure deletion, with cryptographic erasure only under documented limits.
+      - id: 3.5.3
+        note: Deletion reaches backups or is filtered on restore.
+      - id: 3.5.4
+        note: Deletion extends to logs.
+      - id: 3.5.5
+        note: Deletion extends to caches, temporary files and pipeline output.
+      - id: 3.5.6
+        note: Recipients are asked to delete shared data and the outcome is recorded (Art. 17(2)).
+      - id: 3.5.7
+        note: Deletion evidence is kept without retaining the deleted data.
+      - id: 1.3.1
+        note: The identifier index shows where all of a person's data lives so that nothing is missed.
+      - id: 5.1.1
+        note: Users can start an erasure request from within the application.
+      - id: 5.1.2
+        note: Administrative tools execute erasure for a specific subject.
+      - id: 5.1.3
+        note: Identity verification applies strongly to erasure because of its impact.
+    - article: Art. 18
+      title: Right to restriction of processing
+      group: Data subject rights
+      obligation: >-
+        In the cases listed, processing of a person's data must be limited to storage until the situation is resolved.
+      coverage: partial
+      apvs:
+      - id: 5.1.2
+        note: Administrative tools must be able to restrict personal data for a specific subject.
+      - id: 1.3.1
+        note: The identifier index locates every place the restriction has to apply.
+      - id: 5.1.1
+        note: Users can start a restriction request from within the application.
+      - id: 5.2.2
+        note: >-
+          Changes to processing preferences must take effect in actual processing within a disclosed period.
+    - article: Art. 19
+      title: >-
+        Notification obligation regarding rectification or erasure of personal data or restriction of processing
+      group: Data subject rights
+      obligation: >-
+        Recipients of the data must be told about rectification, erasure or restriction, and the data subject can ask who they are.
+      coverage: partial
+      apvs:
+      - id: 3.5.6
+        note: Deletion requests go to every recipient and the response is recorded.
+      - id: 1.4.1
+        note: The interface inventory identifies the external parties that receive personal data.
+      - id: 3.4.1
+        note: Limiting recipients to those required keeps the notification set small and known.
+    - article: Art. 20
+      title: Right to data portability
+      group: Data subject rights
+      obligation: >-
+        A data subject can receive the data they provided in a structured, commonly used, machine-readable format and have it transmitted to another controller.
+      coverage: partial
+      apvs:
+      - id: 3.4.4
+        note: >-
+          Users can export all their data in a non-proprietary machine-readable format with field descriptions.
+      - id: 5.1.2
+        note: Administrative tools can export a subject's data on request.
+      - id: 5.1.1
+        note: Users can start the export from within the application.
+      - id: 1.3.1
+        note: The identifier index makes sure the export covers all components.
+    - article: Art. 21
+      title: Right to object
+      group: Data subject rights
+      obligation: >-
+        A data subject can object to certain processing, including direct marketing, and the processing must then stop unless overriding grounds exist.
+      coverage: partial
+      apvs:
+      - id: 5.2.1
+        note: >-
+          Users can change their privacy settings from within the application, which gives a channel for objecting.
+      - id: 5.2.2
+        note: >-
+          A setting change must stop the affected processing in the backend within a disclosed period.
+      - id: 4.3.4
+        note: A setting shown as off means the processing is not occurring.
+      - id: 4.3.6
+        note: >-
+          A single dashboard lets users view and change processing purposes and communication preferences.
+      - id: 4.3.2
+        note: Settings must have a real effect on processing.
+    - article: Art. 24
+      title: Responsibility of the controller
+      group: Controller obligations
+      obligation: >-
+        The controller must implement appropriate technical and organizational measures and be able to show that processing meets the Regulation.
+      coverage: supporting
+      apvs:
+      - id: 1.1.1
+        note: The catalog gives a verifiable record of what personal data the system handles.
+      - id: 1.4.1
+        note: The interface inventory shows where data enters and leaves.
+      - id: 1.4.3
+        note: >-
+          The purpose register with an enforced build check is a technical measure that also serves as evidence.
+      - id: 3.5.7
+        note: Deletion logs demonstrate that erasure measures work.
+      - id: 4.2.6
+        note: Consent records demonstrate the basis for consent-based processing.
+    - article: Art. 25(1)
+      title: Data protection by design
+      group: Controller obligations
+      obligation: >-
+        Suitable measures, such as pseudonymization and minimization, must be built into the design of processing and applied during it.
+      coverage: partial
+      apvs:
+      - id: 1.4.3
+        note: >-
+          Processing cannot start without a registered purpose, which builds purpose into the design.
+      - id: 2.1.1
+        note: Necessity is tested for each data element at design time.
+      - id: 2.1.2
+        note: Data is collected in its least detailed form.
+      - id: 2.1.6
+        note: Aggregation replaces raw data where the purpose allows.
+      - id: 3.1.1
+        note: In-flight only handling avoids storing data whose purpose is met.
+      - id: 3.2.3
+        note: Outcomes are stored apart from the source data, so the sensitive input can be deleted.
+      - id: 3.2.4
+        note: On-device processing keeps raw data off the backend.
+      - id: 3.3.5
+        note: System-generated pseudonymous references replace direct identifiers in keys and URLs.
+      - id: 3.3.6
+        note: The pseudonym mapping lives in a separate store with its own access controls.
+      - id: 3.3.3
+        note: Automated deletion at retention expiry is built into the system.
+    - article: Art. 25(2)
+      title: Data protection by default
+      group: Controller obligations
+      obligation: >-
+        By default only the data necessary for each purpose may be processed, in amount, extent, storage period and accessibility.
+      coverage: direct
+      apvs:
+      - id: 2.1.1
+        note: Only necessary data elements are collected.
+      - id: 2.1.5
+        note: >-
+          Optional data is never needed for core functionality, so the default flow collects the least.
+      - id: 2.2.1
+        note: Location is held at the least precise level the feature needs.
+      - id: 4.2.2
+        note: Consent controls start off.
+      - id: 3.3.1
+        note: Each data class has a defined minimal retention period.
+      - id: 3.4.1
+        note: >-
+          Sharing and audience settings are bounded by the purpose, so data is not exposed to an open-ended audience.
+      - id: 4.3.5
+        note: Settings resets are announced and reviewable before processing resumes under new defaults.
+      - id: 2.1.2
+        note: >-
+          Each necessary element is held in its minimum sufficient form, which limits the amount and extent of data processed.
+      - id: 3.4.2
+        note: >-
+          Exports and transmissions carry only the data the purpose requires, which limits who can reach it.
+      - id: 3.3.3
+        note: >-
+          Data is deleted automatically when its retention period expires, which limits the period of storage.
+    - article: Art. 28
+      title: Processor
+      group: Controller obligations
+      obligation: >-
+        The controller must use processors that give sufficient guarantees and bind them by contract, including assistance with rights and deletion or return of data at the end of the service.
+      coverage: supporting
+      apvs:
+      - id: 1.4.1
+        note: >-
+          The interface inventory identifies the external parties that receive or can reach personal data.
+      - id: 3.4.1
+        note: Data goes only to recipients, including processors, that the purpose requires.
+      - id: 3.5.6
+        note: Deletion at processors must be completed and confirmed (Art. 28(3)(g)).
+      - id: 1.3.1
+        note: >-
+          The identifier index covers data held by processors, which supports assistance with rights requests (Art. 28(3)(e)).
+    - article: Art. 30
+      title: Records of processing activities
+      group: Controller obligations
+      obligation: >-
+        Controllers and processors must keep records of processing, including purposes, categories of data and subjects, recipients and retention.
+      coverage: supporting
+      apvs:
+      - id: 1.1.1
+        note: The catalog provides data categories and subject types.
+      - id: 1.2.2
+        note: Collection purposes are registered for each element.
+      - id: 1.4.3
+        note: Processing purposes are registered for each operation.
+      - id: 1.4.1
+        note: The inventory lists recipients and interface directions.
+      - id: 1.4.2
+        note: Passive collectors are included, so the record does not miss them.
+      - id: 1.2.1
+        note: Record-level metadata supports lineage and subject relationships.
+      - id: 3.3.1
+        note: Retention periods per data class supply the envisaged erasure time limits.
+    - article: Art. 32
+      title: Security of processing
+      group: Security and breach
+      obligation: >-
+        Controllers and processors must apply technical and organizational measures matched to the risk, including pseudonymization and encryption.
+      coverage: supporting
+      apvs:
+      - id: 3.3.5
+        note: Keyed or random pseudonymous references implement pseudonymization (Art. 32(1)(a)).
+      - id: 3.3.6
+        note: Separate storage of the mapping makes pseudonymization protective.
+      - id: 3.3.7
+        note: Pseudonymous audit logs limit exposure of identities.
+      - id: 3.4.3
+        note: Access logging supports monitoring and review of sensitive data use.
+      - id: 3.5.1
+        note: >-
+          Secure deletion, and cryptographic erasure only where encryption was applied in advance, limits residual exposure.
+    - article: Art. 33
+      title: Notification of a personal data breach to the supervisory authority
+      group: Security and breach
+      obligation: >-
+        A breach must be reported to the supervisory authority within 72 hours, describing the data, subjects and consequences.
+      coverage: supporting
+      apvs:
+      - id: 1.1.1
+        note: >-
+          The catalog tells responders which categories of data a compromised store held (Art. 33(3)(a)).
+      - id: 1.3.1
+        note: The identifier index helps establish how many subjects and records are affected.
+      - id: 3.4.3
+        note: Access logs show what was accessed and by whom.
+    - article: Art. 34
+      title: Communication of a personal data breach to the data subject
+      group: Security and breach
+      obligation: >-
+        When a breach is likely to create a high risk, the affected people must be told without undue delay.
+      coverage: supporting
+      apvs:
+      - id: 1.3.1
+        note: The identifier index identifies the people whose data sat in the affected stores.
+      - id: 1.3.2
+        note: Multiple identifiers resolve to one subject, so affected people can be reached.
+    - article: Art. 35
+      title: Data protection impact assessment
+      group: Controller obligations
+      obligation: >-
+        For high-risk processing the controller must assess the operations, their necessity and proportionality, and the risks and mitigations before processing starts.
+      coverage: supporting
+      apvs:
+      - id: 1.1.1
+        note: The catalog is a technical description of the data in scope (Art. 35(7)(a)).
+      - id: 1.4.1
+        note: The interface inventory documents data flows to and from external parties.
+      - id: 1.4.3
+        note: The purpose register describes each processing operation and its purpose.
+      - id: 2.1.1
+        note: Necessity testing per data element supports the necessity assessment (Art. 35(7)(b)).
+      - id: 2.1.2
+        note: Minimum sufficient form supports the proportionality assessment.
+      - id: 3.4.3
+        note: Access logging is one of the mitigations assessed for sensitive data.
+    not_covered:
+    - article: Art. 6(1)(b) to (f)
+      title: Other lawful bases
+      reason: >-
+        Choosing and documenting contract, legal obligation, vital interest, public task or legitimate interest is a legal assessment, and APVS requirements address consent only.
+    - article: Art. 22
+      title: Automated individual decision-making, including profiling
+      reason: >-
+        APVS requires disclosure of automated decisions (mapped under Art. 13 and 14) but sets no requirement for human intervention, expressing a view or contesting a decision.
+    - article: Art. 26
+      title: Joint controllers
+      reason: Arrangements between joint controllers are contractual and organizational.
+    - article: Art. 27
+      title: Representatives of controllers or processors not established in the Union
+      reason: Designation of a representative is a legal and organizational matter.
+    - article: Art. 31
+      title: Cooperation with the supervisory authority
+      reason: Cooperation is an organizational duty with no application-level counterpart.
+    - article: Art. 33(1) and 33(4)
+      title: Breach notification procedure and timing
+      reason: >-
+        Assessing, deciding and notifying the authority within 72 hours is an incident response procedure that APVS does not define.
+    - article: Art. 36
+      title: Prior consultation
+      reason: Consulting the supervisory authority is a procedural step after a DPIA.
+    - article: Art. 37 to 39
+      title: Data protection officer
+      reason: Organizational role with no application-level counterpart.
+    - article: Art. 40 to 43
+      title: Codes of conduct and certification
+      reason: These are voluntary governance mechanisms outside application requirements.
+    - article: Art. 44 to 50
+      title: Transfers to third countries or international organisations
+      reason: >-
+        Transfer mechanisms such as adequacy and standard clauses are legal arrangements, and APVS has no requirement on transfer location or safeguards.
+  ccpa_cpra:
+    regulation: California Consumer Privacy Act as amended by the CPRA, with the CPPA regulations
+    intro: |
+      This mapping lists provisions of the California Consumer Privacy Act as amended by the CPRA (Cal. Civ. Code 1798.100 and following) and the CPPA regulations (Cal. Code Regs. tit. 11, 7000 and following) that an application has to support technically, together with the APVS requirements that help an application meet them. Direct means APVS covers the application-level obligation fairly completely, partial means it covers part of it, and supporting means it yields evidence or building blocks only. APVS is a verification standard, so the mapping is a guide for engineers that reflects the statute and regulations as verified on 2 November 2026. The regulations on risk assessments and cybersecurity audits took effect on 1 January 2026 with phased deadlines running to 2030, and the automated decisionmaking technology requirements apply from 1 January 2027.
+    provisions:
+    - citation: Cal. Civ. Code 1798.100(a)(1) and (a)(2)
+      title: General Duties of Businesses that Collect Personal Information (notice at collection)
+      group: Notice and transparency
+      obligation: >-
+        Tell consumers, at or before the point of collection, which categories of personal information and sensitive personal information are collected, the purposes for which they are collected or used, and whether they are sold or shared.
+      coverage: partial
+      apvs:
+      - id: 4.1.1
+        note: >-
+          Requires a notice at or before collection that is readable by people and accessible to machines, with every version recorded.
+      - id: 4.1.2
+        note: >-
+          Requires the notice to be given for each processing activity, which fits collection points that serve different purposes.
+      - id: 4.1.3
+        note: >-
+          Requires the notice to state the data categories, the specific purpose, the retention period and whether recipients receive the data.
+      - id: 4.1.4
+        note: >-
+          Asks for named recipients or specific recipient categories, which supports the disclosure of who receives sold or shared data.
+      - id: 1.1.1
+        note: >-
+          The in-system catalog of data elements and purposes supplies the facts a notice has to state.
+      - id: 1.2.2
+        note: >-
+          A specific collection purpose recorded before collection gives the notice its purpose statement.
+    - citation: Cal. Code Regs. tit. 11, 7012
+      title: Notice at Collection of Personal Information
+      group: Notice and transparency
+      obligation: >-
+        Present the notice at collection in a way consumers can see before data is collected, including on each collection channel, and make sure third parties that collect data through the business's site or app are covered.
+      coverage: partial
+      apvs:
+      - id: 4.1.1
+        note: Requires the notice to precede collection and to be versioned.
+      - id: 4.1.2
+        note: Requires a contextual notice at each collection point rather than a single global policy.
+      - id: 4.1.3
+        note: Defines the minimum content of the notice per processing activity.
+      - id: 1.4.2
+        note: >-
+          Inventories analytics SDKs, pixels and similar components that collect data without explicit invocation, which are the third-party collectors the notice has to account for.
+      - id: 1.4.1
+        note: >-
+          Keeps a machine-readable inventory of external interfaces that can be checked against what the notice discloses.
+    - citation: Cal. Civ. Code 1798.100(a)(3)
+      title: General Duties of Businesses that Collect Personal Information (retention)
+      group: Notice and transparency
+      obligation: >-
+        Disclose how long each category of personal information is kept, or the criteria used to set that period, and do not keep it longer than reasonably necessary for the disclosed purpose.
+      coverage: direct
+      apvs:
+      - id: 4.1.3
+        note: >-
+          Requires the notice to state the retention period or criteria for each processing activity.
+      - id: 4.1.5
+        note: >-
+          Requires a specific period per data category and purpose and rules out a generic as long as necessary statement.
+      - id: 3.3.1
+        note: >-
+          Defines a retention period or criteria for every data element or class, which is the source for the disclosure.
+      - id: 3.3.3
+        note: Deletes data automatically when its retention period expires.
+      - id: 3.3.2
+        note: Bounds the time temporary copies can persist when immediate deletion is not feasible.
+      - id: 1.2.3
+        note: >-
+          Records when data was last collected, which is the reference point for enforcing retention.
+    - citation: Cal. Code Regs. tit. 11, 7011
+      title: Privacy Policy
+      group: Notice and transparency
+      obligation: >-
+        Publish a comprehensive privacy policy that describes data practices and consumer rights, explains how to exercise them, and is kept current.
+      coverage: supporting
+      apvs:
+      - id: 4.1.1
+        note: Requires a versioned notice with a recorded history of changes.
+      - id: 4.1.3
+        note: Supplies categories, purposes, retention and sharing statements for the policy text.
+      - id: 4.1.7
+        note: Requires affected people to be told of material changes before they take effect.
+      - id: 5.1.4
+        note: >-
+          Requires a clear explanation of how individuals can use privacy features or reach a human process.
+    - citation: Cal. Code Regs. tit. 11, 7003
+      title: Requirements for Disclosures and Communications to Consumers
+      group: Notice and transparency
+      obligation: >-
+        Make required disclosures easy to read and understand, in plain language, and accessible to the consumers addressed.
+      coverage: supporting
+      apvs:
+      - id: 4.1.1
+        note: >-
+          Requires the notice to use plain language about what is collected, how it is used and how it is protected.
+      - id: 4.3.1
+        note: Requires privacy controls to meet WCAG AA contrast and to sit within normal reading flow.
+      - id: 4.3.3
+        note: Requires consistent labels and unambiguous wording for privacy choices.
+    - citation: Cal. Civ. Code 1798.100(c)
+      title: >-
+        General Duties of Businesses that Collect Personal Information (purpose limitation and minimization)
+      group: Purpose and minimization
+      obligation: >-
+        Keep collection, use, retention and sharing reasonably necessary and proportionate to the purposes for which the information was collected.
+      coverage: direct
+      apvs:
+      - id: 2.1.1
+        note: Limits collection to elements that are necessary for the documented purpose.
+      - id: 2.1.2
+        note: >-
+          Requires the least data, coarsest granularity and narrowest volume and frequency that still serve the purpose.
+      - id: 2.1.3
+        note: Requires necessity to be reassessed when a processing activity changes or ends.
+      - id: 2.1.4
+        note: Applies the same limits to inferred and derived data.
+      - id: 2.1.5
+        note: Requires core functionality to work without optional data.
+      - id: 2.1.6
+        note: Prefers aggregated or de-identified output and discards the raw data.
+      - id: 2.1.7
+        note: Reduces granularity of longitudinal data as it ages.
+      - id: 2.2.1
+        note: Sets a least-precise-level rule for location data.
+      - id: 3.1.1
+        note: Keeps data that is used only during collection in memory and out of storage.
+      - id: 3.2.5
+        note: Checks processing against the collection purpose and the data timeframe the purpose needs.
+      - id: 3.4.2
+        note: Limits each export or transmission to the data the purpose of the exchange requires.
+      - id: 2.2.2
+        note: Age data is held at the least precise level the feature needs.
+      - id: 2.2.3
+        note: Identity data is held at the least linkable level the feature allows.
+      - id: 2.2.4
+        note: Photo metadata is limited to the documented level.
+      - id: 2.2.5
+        note: File metadata is limited to what the feature needs.
+      - id: 2.2.6
+        note: Communication history is kept at the least detailed level that works.
+      - id: 2.2.7
+        note: Live stream data is limited to the lowest fidelity that works.
+      - id: 3.3.1
+        note: >-
+          A retention period is defined for each data class, so data is kept only as long as reasonably necessary.
+    - citation: Cal. Code Regs. tit. 11, 7002
+      title: Restrictions on the Collection and Use of Personal Information
+      group: Purpose and minimization
+      obligation: >-
+        Collect and use personal information only for purposes consistent with consumers' reasonable expectations, and obtain consent before using it for an unrelated or incompatible purpose.
+      coverage: partial
+      apvs:
+      - id: 1.2.2
+        note: >-
+          Requires a specific collection purpose to be recorded before collection and blocks collection without one.
+      - id: 1.4.3
+        note: Requires a registered purpose for each processing operation before it runs.
+      - id: 3.2.5
+        note: >-
+          Blocks or flags use outside the collection purpose and requires a dated compatibility assessment or legal basis for secondary use.
+      - id: 4.2.3
+        note: >-
+          Requires separate consent for each distinct purpose, which fits the consent needed for an unrelated purpose.
+      - id: 2.1.1
+        note: Keeps collected elements tied to what the documented purpose needs.
+    - citation: Cal. Civ. Code 1798.105
+      title: Consumers' Right to Delete Personal Information
+      group: Consumer rights
+      obligation: >-
+        On a verified request, delete the consumer's personal information from the business's records and direct service providers, contractors and relevant third parties to do the same.
+      coverage: direct
+      apvs:
+      - id: 3.5.1
+        note: Makes secure deletion the default method for data under a deletion obligation.
+      - id: 3.5.2
+        note: Provides one deletion pathway that a request can trigger without manual database work.
+      - id: 3.5.3
+        note: Extends deletion to backups, or filters deleted data out on restoration.
+      - id: 3.5.4
+        note: Extends deletion to logs that contain personal data.
+      - id: 3.5.5
+        note: Extends deletion to caches, temporary files and intermediate outputs.
+      - id: 3.5.6
+        note: Sends deletion requests to every recipient of the data and records the outcome.
+      - id: 3.5.7
+        note: Produces deletion evidence without keeping the deleted content.
+      - id: 1.3.1
+        note: The subject index makes it possible to find all data held about the requester.
+      - id: 1.3.2
+        note: Resolves every known identifier of a person to the same record set.
+      - id: 5.1.1
+        note: Lets a registered user start a request from inside the application.
+      - id: 5.1.3
+        note: A request is fulfilled only after proportionate identity verification.
+    - citation: Cal. Code Regs. tit. 11, 7022
+      title: Requests to Delete
+      group: Consumer rights
+      obligation: >-
+        Carry out deletion by erasing or de-identifying the data, tell service providers, contractors and third parties to delete it, and keep a record of the request.
+      coverage: direct
+      apvs:
+      - id: 3.5.1
+        note: >-
+          Defines how erasure is performed, including the narrow conditions for cryptographic erasure.
+      - id: 3.5.3
+        note: Covers archived and backup systems through deletion or restoration filtering.
+      - id: 3.5.6
+        note: Covers notifying recipients and recording what they answer.
+      - id: 3.5.7
+        note: Provides an audit trail that deletion occurred without retaining the data.
+      - id: 5.1.2
+        note: >-
+          Gives authorized staff an administrative function to execute erasure without direct database access.
+      - id: 3.5.2
+        note: >-
+          Provides an on-demand deletion mechanism that a data subject or authorized personnel can trigger.
+    - citation: Cal. Civ. Code 1798.106
+      title: Consumers' Right to Correct Inaccurate Personal Information
+      group: Consumer rights
+      obligation: >-
+        On a verified request, correct inaccurate personal information and have the correction reach the places where the data is held.
+      coverage: partial
+      apvs:
+      - id: 3.3.4
+        note: >-
+          Requires a corrected value to propagate to replicas, caches and search indexes within an enforced period.
+      - id: 1.3.1
+        note: Locates every copy of the data that needs the correction.
+      - id: 5.1.1
+        note: Lets a user start the request in the application.
+      - id: 5.1.2
+        note: >-
+          Administrative tooling lets staff locate and act on the data of a specific person, and its verification step covers rectification requests.
+    - citation: Cal. Code Regs. tit. 11, 7023
+      title: Requests to Correct
+      group: Consumer rights
+      obligation: >-
+        Assess the accuracy of the disputed data using the information supplied, make the correction in the business's systems, and tell the consumer the outcome.
+      coverage: supporting
+      apvs:
+      - id: 3.3.4
+        note: Ensures an accepted correction reaches every storage component.
+      - id: 1.2.1
+        note: Provenance and lineage tags help decide whether the disputed value is reliable.
+    - citation: Cal. Civ. Code 1798.110
+      title: >-
+        Consumers' Right to Know What Personal Information is Being Collected. Right to Access Personal Information
+      group: Consumer rights
+      obligation: >-
+        On a verified request, disclose the categories and specific pieces of personal information collected, the sources, the purposes, and the categories of third parties it was disclosed to.
+      coverage: partial
+      apvs:
+      - id: 1.3.1
+        note: Retrieves everything attributable to one person across storage components.
+      - id: 1.3.2
+        note: Handles several identifiers for the same person.
+      - id: 1.2.1
+        note: Record-level tags for purpose and provenance supply the sources and purposes to report.
+      - id: 1.4.1
+        note: The interface inventory identifies the external parties that receive data.
+      - id: 3.4.4
+        note: Exports a person's data in a structured, machine-readable format.
+      - id: 5.1.1
+        note: Lets a user initiate an access request in the application.
+      - id: 5.1.2
+        note: Lets administrators locate and retrieve a person's data without custom scripting.
+    - citation: Cal. Civ. Code 1798.115
+      title: Consumers' Right to Know What Personal Information is Sold or Shared and to Whom
+      group: Consumer rights
+      obligation: >-
+        On request, disclose the categories of personal information sold or shared about the consumer and the categories of parties that received each.
+      coverage: supporting
+      apvs:
+      - id: 1.4.1
+        note: >-
+          Records the external party, data categories and purpose of every outbound interface, which is the raw material for the answer.
+      - id: 1.4.2
+        note: Records passive collectors that receive data without explicit application calls.
+      - id: 3.4.1
+        note: Limits sharing to required recipients, which keeps the disclosure list short and accurate.
+      - id: 4.3.7
+        note: A privacy report shows individuals what is shared with whom under their current settings.
+    - citation: Cal. Code Regs. tit. 11, 7024
+      title: Requests to Know
+      group: Consumer rights
+      obligation: >-
+        Return the specific pieces of personal information and the required category disclosures, in a usable format, and look back beyond twelve months where the data exists.
+      coverage: partial
+      apvs:
+      - id: 3.4.4
+        note: >-
+          Requires a structured export with described fields that can be read without access to the system.
+      - id: 1.3.1
+        note: >-
+          The index makes it possible to enumerate data in logs, caches and derived stores as well as primary databases.
+      - id: 5.1.2
+        note: Gives administrators a way to retrieve and export a person's data.
+    - citation: Cal. Civ. Code 1798.120
+      title: Consumers' Right to Opt Out of Sale or Sharing of Personal Information
+      group: Opt-out and limiting
+      obligation: >-
+        Let consumers direct a business at any time to stop selling or sharing their personal information, and make that choice take effect in processing.
+      coverage: partial
+      apvs:
+      - id: 5.2.1
+        note: Lets users change their privacy settings from inside the application.
+      - id: 5.2.2
+        note: >-
+          Requires a setting change to take effect on processing immediately or within a disclosed maximum period.
+      - id: 4.3.2
+        note: Requires privacy settings to have a real effect on processing.
+      - id: 4.3.4
+        note: Requires displayed settings to match actual processing state.
+      - id: 3.4.1
+        note: >-
+          Limits recipients to those the purpose requires, which bounds the set affected by a sharing opt-out.
+      - id: 1.4.2
+        note: Finds the advertising and analytics components that share data.
+    - citation: Cal. Civ. Code 1798.135(a)
+      title: >-
+        Methods of Limiting Sale, Sharing, and Use of Personal Information and Use of Sensitive Personal Information (opt-out and limit links)
+      group: Opt-out and limiting
+      obligation: >-
+        Provide clear and conspicuous links, or an alternative opt-out link, that lead to the opt-out of sale or sharing and the limit on sensitive personal information use (see also Cal. Code Regs. tit. 11, 7013, 7014 and 7015).
+      coverage: supporting
+      apvs:
+      - id: 4.3.1
+        note: >-
+          Requires privacy controls to be reachable within two steps from the standard menus and not visually de-emphasized.
+      - id: 4.3.6
+        note: Provides a single dashboard where such choices can sit.
+      - id: 5.1.4
+        note: Requires a clear description of how people reach these features.
+    - citation: Cal. Code Regs. tit. 11, 7025
+      title: Opt-out Preference Signals
+      group: Opt-out and limiting
+      obligation: >-
+        Treat a browser or device opt-out preference signal such as Global Privacy Control as a valid request to opt out of sale and sharing, and show that the signal was honored.
+      coverage: supporting
+      apvs:
+      - id: 5.2.2
+        note: >-
+          Covers applying a changed choice to processing, though no APVS requirement addresses detecting the signal itself.
+      - id: 4.3.4
+        note: Requires the stated privacy state to match the processing that actually occurs.
+      - id: 4.3.3
+        note: Requires a choice to operate identically in every context where the processing occurs.
+    - citation: Cal. Code Regs. tit. 11, 7026
+      title: Requests to Opt-out of Sale/Sharing
+      group: Opt-out and limiting
+      obligation: >-
+        Offer an opt-out method as easy as other request methods, act on it without delay, and pass the request to the third parties the data was made available to.
+      coverage: partial
+      apvs:
+      - id: 5.2.1
+        note: Provides self-service modification of settings without support contact.
+      - id: 5.2.2
+        note: Applies the change to processing within a disclosed period.
+      - id: 4.3.2
+        note: Confirms the control stops the corresponding processing.
+      - id: 3.4.1
+        note: Limits recipients, which gives a defined set of parties to notify.
+      - id: 3.5.6
+        note: Provides a model for sending a request to recipients and recording their response.
+    - citation: Cal. Civ. Code 1798.121 and Cal. Code Regs. tit. 11, 7027
+      title: >-
+        Consumers' Right to Limit Use and Disclosure of Sensitive Personal Information; Requests to Limit Use and Disclosure of Sensitive Personal Information
+      group: Opt-out and limiting
+      obligation: >-
+        Let consumers limit the use of their sensitive personal information to what is necessary to provide the requested goods or services, and apply that limit across the business's processing.
+      coverage: supporting
+      apvs:
+      - id: 3.2.5
+        note: >-
+          Enforces purpose checks at the point of use, which is where a limit on sensitive data use takes effect.
+      - id: 5.2.1
+        note: Lets users set the limit from inside the application.
+      - id: 5.2.2
+        note: Makes the limit take effect on processing within a disclosed period.
+      - id: 4.3.4
+        note: Keeps the displayed setting aligned with what processing does.
+      - id: 3.4.3
+        note: >-
+          Logs each access to sensitive data with its purpose, which supports checking compliance with a limit.
+    - citation: Cal. Code Regs. tit. 11, 7028
+      title: >-
+        Requests to Opt-in After Opting-out of the Sale or Sharing of Personal Information or Limiting the Use and Disclosure of Sensitive Personal Information
+      group: Opt-out and limiting
+      obligation: >-
+        Accept an opt-in after an opt-out only through a clear process, and do not repeatedly prompt a consumer who has opted out.
+      coverage: partial
+      apvs:
+      - id: 4.2.10
+        note: >-
+          Prohibits re-prompting for a purpose the person has already declined unless the processing materially changed.
+      - id: 4.2.6
+        note: Records each consent transaction with timestamp, purpose and notice version.
+      - id: 4.2.2
+        note: Requires consent to be an explicit action and never a default.
+    - citation: Cal. Civ. Code 1798.125 and Cal. Code Regs. tit. 11, 7080
+      title: >-
+        Consumers' Right of No Retaliation Following Opt Out or Exercise of Other Rights; Discriminatory Practices
+      group: Opt-out and limiting
+      obligation: >-
+        Do not deny service, change prices or degrade quality because a consumer exercised a privacy right.
+      coverage: partial
+      apvs:
+      - id: 4.2.7
+        note: Prohibits conditioning core functionality on consent to non-essential processing.
+      - id: 2.1.5
+        note: Requires core functionality to work when optional data is withheld.
+      - id: 4.2.9
+        note: Prohibits false necessity and pressure framing around privacy choices.
+    - citation: Cal. Civ. Code 1798.130(a)(1) and Cal. Code Regs. tit. 11, 7020
+      title: >-
+        Notice, Disclosure, Correction, and Deletion Requirements; Methods for Submitting Requests to Delete, Requests to Correct, and Requests to Know
+      group: Requests and consent
+      obligation: >-
+        Offer designated methods for submitting requests, including an online method where the business operates online, and make them easy to find and use.
+      coverage: partial
+      apvs:
+      - id: 5.1.1
+        note: Requires in-application self-service initiation reachable within two navigation steps.
+      - id: 5.1.4
+        note: Requires the system to explain how to use these features or ask for a human process.
+      - id: 4.3.1
+        note: Makes privacy controls discoverable from standard menus.
+      - id: 4.3.6
+        note: Gives one dashboard for viewing and changing privacy settings.
+      - id: 5.1.2
+        note: Lets staff execute requests that arrive through other channels.
+    - citation: Cal. Code Regs. tit. 11, 7021
+      title: >-
+        Timelines for Responding to Requests to Delete, Requests to Correct, Requests to Know, Requests to Access ADMT, and Requests to Appeal ADMT
+      group: Requests and consent
+      obligation: >-
+        Confirm receipt of a request within ten business days and respond within forty-five calendar days, with a limited extension when notice is given.
+      coverage: supporting
+      apvs:
+      - id: 5.1.2
+        note: >-
+          Gives administrators the tooling to carry out a request without direct database access or custom scripting.
+      - id: 3.5.2
+        note: >-
+          Requires any delay between a deletion request and deletion to be defined and enforced by the system.
+      - id: 3.5.7
+        note: Produces evidence of when deletion took place.
+    - citation: Cal. Code Regs. tit. 11, 7060
+      title: General Rules Regarding Verification
+      group: Requests and consent
+      obligation: >-
+        Verify that the person making a request to delete, correct or know is the consumer concerned, using a method proportionate to the risk, and delete verification data once it is no longer needed (see also 7061 and 7062).
+      coverage: partial
+      apvs:
+      - id: 5.1.3
+        note: >-
+          Requires proportionate identity verification before fulfilling a request, and per its guidance removal of identity data afterwards.
+    - citation: Cal. Code Regs. tit. 11, 7063
+      title: Authorized Agents
+      group: Requests and consent
+      obligation: >-
+        Accept requests from an agent the consumer has authorized, after verifying the agent's authority.
+      coverage: supporting
+      apvs:
+      - id: 5.1.3
+        note: Calls for provisions for delegated requests and confirmation of the authority behind them.
+    - citation: Cal. Code Regs. tit. 11, 7004
+      title: Requirements for Methods for Submitting CCPA Requests and Obtaining Consumer Consent
+      group: Requests and consent
+      obligation: >-
+        Design request and consent interfaces in plain language, with symmetry in choice, no confusing wording and no choice architecture that impairs a free, specific, informed and unambiguous choice, so that consent obtained through dark patterns is not valid.
+      coverage: direct
+      apvs:
+      - id: 4.2.1
+        note: Requires equal prominence and no more steps to accept than to reject.
+      - id: 4.2.2
+        note: Prohibits pre-selected and inferred consent.
+      - id: 4.2.3
+        note: >-
+          Requires separate consent per purpose and a second layer that is as easy to reach as the summary choice.
+      - id: 4.2.4
+        note: Requires consent to be separated from terms and other declarations.
+      - id: 4.2.5
+        note: Requires withdrawal to be as easy as giving consent.
+      - id: 4.2.7
+        note: Prohibits bundling non-essential consent with access to core functionality.
+      - id: 4.2.9
+        note: Prohibits confirmshaming, false necessity and fabricated urgency.
+      - id: 4.2.10
+        note: Prohibits repeated prompts after a decline.
+      - id: 4.3.3
+        note: Prohibits double negatives and ambiguous labels in privacy settings.
+      - id: 4.3.1
+        note: Keeps privacy controls easy to locate and legible.
+    - citation: Cal. Code Regs. tit. 11, 7101
+      title: Record-Keeping
+      group: Requests and consent
+      obligation: Keep records of consumer requests and how the business responded for the required period.
+      coverage: supporting
+      apvs:
+      - id: 4.2.6
+        note: >-
+          Records each consent transaction with the data subject, time, purpose, notice version and mechanism.
+      - id: 3.5.7
+        note: Provides a deletion log that proves the outcome without storing the deleted data.
+    - citation: Cal. Civ. Code 1798.100(d)
+      title: >-
+        General Duties of Businesses that Collect Personal Information (contracts with third parties, service providers and contractors)
+      group: Service providers and third parties
+      obligation: >-
+        Bind each third party, service provider and contractor by contract to limited and specified purposes, so the business needs to know who receives data and why.
+      coverage: supporting
+      apvs:
+      - id: 1.4.1
+        note: >-
+          Records the external party, data categories and purpose for each interface, which is the information the contract has to match.
+      - id: 1.4.2
+        note: Finds passive collectors that would otherwise lack a contract and a stated purpose.
+      - id: 3.4.1
+        note: Limits sharing to recipients the purpose requires.
+      - id: 3.4.2
+        note: Limits each transmission to the fields the purpose requires.
+    - citation: Cal. Code Regs. tit. 11, 7050
+      title: Service Providers and Contractors
+      group: Service providers and third parties
+      obligation: >-
+        Keep service providers and contractors within the business purpose in the contract, and make sure they can assist with consumer requests.
+      coverage: supporting
+      apvs:
+      - id: 3.2.5
+        note: >-
+          Flags use of customer data outside its collection purpose, such as feeding it to model training.
+      - id: 3.5.6
+        note: Requires deletion requests to reach processors and the outcome to be confirmed.
+      - id: 1.3.1
+        note: The index covers data held by processors, which lets the business answer requests for it.
+      - id: 3.4.1
+        note: Treats processors as recipients that must be required for the purpose of the exchange.
+    - citation: Cal. Code Regs. tit. 11, 7052
+      title: Third Parties
+      group: Service providers and third parties
+      obligation: >-
+        Pass consumer deletion, opt-out and limit requests to third parties that received the data and expect them to comply.
+      coverage: supporting
+      apvs:
+      - id: 3.5.6
+        note: Sends deletion requests to every recipient and records each response.
+      - id: 1.4.1
+        note: Identifies the third parties that need to receive such requests.
+    - citation: Cal. Code Regs. tit. 11, 7152
+      title: Risk Assessment Requirements
+      group: Assessments and audits
+      obligation: >-
+        When processing triggers an assessment under 7150, such as selling or sharing data, processing sensitive personal information or using automated decisionmaking for significant decisions, document the operational elements, the categories of data, the purposes, the retention, the benefits and negative impacts, and the safeguards.
+      coverage: supporting
+      apvs:
+      - id: 1.1.1
+        note: >-
+          The data catalog supplies the categories of personal data involved in each processing activity.
+      - id: 1.2.1
+        note: Record-level tags supply purposes, lineage and provenance.
+      - id: 1.4.1
+        note: The interface inventory supplies the recipients and flows to describe.
+      - id: 1.4.3
+        note: The processing purpose register supplies the stated purpose of each operation.
+      - id: 2.1.2
+        note: >-
+          Minimization decisions are evidence that data volume and granularity were weighed against the purpose.
+      - id: 3.3.1
+        note: Defined retention periods supply the retention element.
+      - id: 4.1.8
+        note: Identifies automated decision-making activities that fall into the assessment.
+    - citation: Cal. Code Regs. tit. 11, 7220
+      title: Pre-use Notice Requirements
+      group: Assessments and audits
+      obligation: >-
+        Before using automated decisionmaking technology for a significant decision, give a prominent notice of its purpose, how to opt out, the data that affects outputs and how outputs are used.
+      coverage: supporting
+      apvs:
+      - id: 4.1.8
+        note: >-
+          Requires disclosure of the automated processing, its logic and its consequences for the person.
+    - citation: Cal. Code Regs. tit. 11, 7221
+      title: Requests to Opt-Out of ADMT
+      group: Assessments and audits
+      obligation: >-
+        Let consumers opt out of automated decisionmaking technology used for significant decisions, unless a permitted exception such as a human appeal applies, and stop using the data within the required period.
+      coverage: supporting
+      apvs:
+      - id: 5.2.1
+        note: Provides self-service modification of settings inside the application.
+      - id: 5.2.2
+        note: Applies the change to processing within a disclosed period.
+      - id: 4.3.2
+        note: Confirms the setting stops the corresponding processing.
+    - citation: Cal. Code Regs. tit. 11, 7222
+      title: Requests to Access ADMT
+      group: Assessments and audits
+      obligation: >-
+        On request, explain the purpose, logic and outcome of automated decisionmaking used for a significant decision about the consumer.
+      coverage: supporting
+      apvs:
+      - id: 4.1.8
+        note: >-
+          Requires documentation of the logic and consequences, which is the content the response draws on.
+      - id: 1.3.1
+        note: Finds the inputs and outputs attributable to the requesting person.
+      - id: 5.1.1
+        note: Lets a user start the request in the application.
+    not_covered:
+    - citation: Cal. Civ. Code 1798.100(e) and 1798.150
+      title: Reasonable security procedures and breach liability
+      reason: >-
+        APVS defers security controls to ASVS and does not set security requirements for protecting personal information.
+    - citation: Cal. Code Regs. tit. 11, 7120 to 7124
+      title: Cybersecurity audits (requirement, timing, independence, scope, certification)
+      reason: >-
+        These are organizational audits of a cybersecurity program, and APVS contains no security control requirements to map.
+    - citation: Cal. Civ. Code 1798.120(c) and Cal. Code Regs. tit. 11, 7070 and 7071
+      title: Opt-in for sale or sharing of data of consumers under 16
+      reason: APVS has no requirement on age-gated or parental opt-in flows for sale or sharing.
+    - citation: Cal. Code Regs. tit. 11, 7016 and Cal. Civ. Code 1798.125(b)
+      title: Notice of financial incentive
+      reason: APVS has no requirement on describing financial incentives or the value of consumer data.
+    - citation: Cal. Code Regs. tit. 11, 7100
+      title: Training
+      reason: >-
+        Staff training on consumer request handling is organizational and outside the scope of application requirements.

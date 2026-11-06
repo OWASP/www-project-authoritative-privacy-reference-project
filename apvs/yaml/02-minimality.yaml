@@ -1,0 +1,183 @@
+chapter:
+  number: 2
+  slug: minimality
+  title: Minimality
+  summary: Defines how little personal data an application needs to collect, derive and keep in order to fulfill each documented purpose, and how to verify that it holds no more than that. It exists because data that is never collected cannot leak, be misused or be demanded later.
+  preface: |-
+    Minimality is the state a system is in when, for every feature, the personal data present in collection, processing and storage matches what the documented purpose requires, and nothing beyond it. It is the state an assessor can observe in a running application, and it results from the minimization work a team does during design reviews and cleanups. This chapter is written around that state. Its requirements describe what a verifier should be able to find, and they treat the data and the way it is used as a pair, since the same field can be necessary for one feature and surplus for another.
+
+    The reasoning is practical. Every additional attribute, every extra digit of precision and every month of retained history widens the set of things that can be breached, subpoenaed, repurposed or combined with other data to identify someone. Data that was never collected cannot be leaked, and a coarser value is usually enough to make a feature work. The chapter also reflects an uncomfortable habit of software projects, which is that data gathered because it might be handy tends to stay around long after anyone remembers why.
+
+    Three principles run through the requirements. The first is necessity, so an element belongs in the system only when removing it would stop the purpose from being fulfilled. The second is sufficiency of form, which asks that each necessary element be held at the lowest precision, narrowest scope and smallest volume that still serves the purpose, and that this form degrade further as the data ages. The third is consistency, so that inferred and derived data face the same limits as data collected directly, and optional data is genuinely optional in the backend as well as on the screen.
+
+    For developers and architects, the working method is to start from the documented purpose, choose the least detailed level that keeps the feature functional, write down why a lower level would not do, and then check the code, schemas, logs, caches and exports against that decision. The chapter gives ordered scales for common data classes to make this concrete. Because minimality constrains every moment in the data lifecycle, from collection through deletion, this chapter applies to all phases, and Chapter 3 then applies it to each phase in turn.
+  sections:
+  - id: '2.1'
+    title: Minimization by Necessity
+    explanation: This section establishes the general tests for minimality. It asks whether each data element is necessary, whether it is held in its least detailed form, and whether that judgment is revisited when a purpose changes, ends, or produces derived and aggregated data.
+    requirements:
+    - id: 2.1.1
+      title: Necessity of each data element
+      requirement: Limit the personal data elements collected, processed, or stored to those necessary for their documented purpose. Exclude elements that merely enhance or enrich the processing.
+      guidance: |-
+        "Useful but not necessary" is the key distinction. If removing the element would prevent the purpose from being fulfilled, it is necessary. If it merely enhances or enriches the processing, it is not.
+
+        Define purposes first, then define minimal data requirements to fulfill that purpose. Refer to "Purpose specificity" in Chapter 1.
+
+        Info: This requirement covers "do we need this (blob of) data". 2.1.2 looks at the data items in the blob
+      verification: 'Inspect: for each data element, confirm it is required for — not merely useful to — the documented purpose. Elements that are useful but not required are findings.'
+      level: L1
+      type: APP
+    - id: 2.1.2
+      title: Minimum sufficient data
+      requirement: 'For each necessary personal data element, use the minimum sufficient form: the least data, coarsest granularity, and narrowest volume, frequency, and population that still fulfil the purpose, including no personal data at all where the feature can be redesigned to avoid it.'
+      guidance: |-
+        Info: Minimal refers to limited both in data types, granularity, encoding (including embedded metadata), volume, frequency, and data subjects.
+        (this is a refinement of 2.1.1 by looking specifically at each data item/attribute for the 'data (type/element)' deemed necessary in 2.1.1
+      verification: 'Inspect: for each data element, reviewer assesses whether a reduced dataset or lower precision would still fulfil the purpose. If yes and no justification is recorded, that is a finding.'
+      level: L1
+      type: APP
+    - id: 2.1.3
+      title: Necessity reassessment on change or retirement
+      requirement: When a processing activity changes or is retired, the necessity of each associated personal data element must be reassessed. Elements no longer necessary for the updated activity, or for any remaining active purpose, must be removed from collection, processing, and storage, and existing values deleted within a defined and enforced period.
+      guidance: |-
+        This is when the overall process changes, the underlying purpose changes, ... beyond regularly data lifecycle  evolution
+
+        Retiring a purpose (feature sunset, project closure, contract end) is the limiting case of change. Data that also serves another active purpose stays, but is then bound to that purpose only. Deletion uses the Chapter 3 mechanisms (3.3.2 residual window, 3.5 deletion); the period must be defined and enforced, not open-ended.
+      verification: |-
+        Inspect: review system change records or release history against the purpose register. Any change with no corresponding necessity reassessment, or elements retained after a change makes them unnecessary, are findings.
+        Inspect: sample retired features or purposes from the change history. Confirm the collection field or endpoint was removed and stored values were deleted, or re-bound to a remaining active purpose. Continued collection after retirement is a finding.
+      level: L2
+      type: APP
+    - id: 2.1.4
+      title: Derived data precision
+      requirement: Hold inferred and derived personal data to the same necessity, precision, and granularity limits as directly collected data.
+      guidance: |-
+        If collecting precise coordinates is not permitted, inferring them from coarser data is equally not permitted.
+        E.g. inferring health status from purchases.
+      verification: 'Inspect: for each inferred element, assess whether direct collection of an equivalent element would satisfy the necessity test. If not, the inference is a finding.'
+      level: L3
+      type: APP
+    - id: 2.1.5
+      title: Optional data not functionally mandatory
+      requirement: Ensure all core functionality works when optional personal data elements are not provided.
+      guidance: |-
+        Common implementation gap: fields marked optional in the UI but required by backend logic.
+
+        e.g. downloading an app where during use of core functionality, suddenly the 'optional' location data or access to camera is still required
+      verification: |-
+        Test: attempt core functionality with all optional fields left empty. Any degradation or blocking of core functionality is a finding.
+        Test: API calls with the optional fields omitted or null must also succeed.
+      level: L2
+      type: APP
+    - id: 2.1.6
+      title: Abstract and aggregate
+      requirement: Where aggregated or de-identified output satisfies the processing purpose, generate it at the minimum sufficient granularity and discard the raw personal data from which it was derived.
+      guidance: Note that aggregated is not the same as anonymous. Small cell sizes and differencing attacks can still re-identify people.
+      verification: 'Inspect: review the pipelines for aggregation steps, confirm raw inputs are purged afterwards, and check the output against a minimum cell size.'
+      level: L2
+      type: APP
+    - id: 2.1.7
+      title: Granularity degradation over time
+      requirement: Reduce the granularity of retained longitudinal personal data on a defined schedule as it ages, to the minimum resolution sufficient for the purpose at each age.
+      guidance: |-
+        Longitudinal personal data — data where the combination or sequence of data points reveals information that individual points would not — carries qualitatively different privacy risk from individual data points. A single location coordinate is low-sensitivity; weeks of location data reveals home address, workplace, and behavioural patterns. The necessity test must therefore be applied to the accumulated history as a whole, not only to individual data points in isolation. Progressive granularity reduction is the expected implementation: precise coordinates may be necessary today, city-level sufficient after a week, country-level after a month.
+
+
+        The system must progressively reduce the granularity of personal data retained across multiple points in time as that data ages. The resolution at which historical data is retained must decrease to the minimum sufficient for the processing purpose over time.
+        The system must not retain historical data points at full resolution even if recent data requires higher resolution.
+      verification: 'Verify by: identify datasets where personal data is retained across multiple points in time. For each, confirm a defined point exists at which raw data is reduced — through aggregation, de-identification, or deletion. Any longitudinal dataset retained indefinitely in raw form where a coarser representation would suffice is a finding.'
+      level: L3
+      type: APP
+  - id: '2.2'
+    title: Data Class Granularity
+    explanation: This section provides ordered scales of granularity for data classes that commonly carry more detail than a feature needs, such as location, age, identity, media and file metadata, communication history and live streams. Teams select the least precise level at which each feature still works and record why a lower one would not suffice. The scales are examples and defaults, so apply them to your own context and customize them where it makes sense. Consider outliers that would disclose a specific identity, such as the elevation of a space station as a location value, or the velocity and direction of change in a series of coordinates.
+    requirements:
+    - id: 2.2.1
+      title: Location data granularity
+      requirement: |-
+        The granularity level of location data collected or processed per feature must be the least precise level at which the feature remains functional, selected from the following ordered scale (least to most precise):
+        Continent → Country → Region/State → City → Neighbourhood → Street → Full Building Address → Precise GPS coordinates.
+        Alternative esoteric levels of granularity may be used according to the same restriction of least specific possible.
+      guidance: 'The scale is normative: teams must document which level they use and why a less precise level would not suffice. Precise coordinates must not be the default.'
+      verification: 'Inspect: for each feature processing location data, confirm the granularity level is documented and justified. Test: confirm the system does not collect a more precise level than documented. Any feature using precise coordinates where city-level would suffice is a finding.'
+      level: L2
+      type: APP
+    - id: 2.2.2
+      title: Age / date of birth granularity
+      requirement: |-
+        The granularity level of age or date of birth data collected or processed per feature must be the least precise level at which the feature remains functional, selected from the following ordered scale (least to most precise):
+        Age threshold check (yes/no) → Age bracket → Birth year → Birth month + year → Full date of birth → Full DOB + time of birth.
+      guidance: Age verification features must use threshold check only and must not retain DOB after the check is complete, unless a separate documented purpose requires retention.
+      verification: 'Inspect: for each feature processing age/DOB data, confirm the granularity level is documented and justified. For age verification features, confirm DOB is not retained post-verification unless separately justified.'
+      level: L2
+      type: APP
+    - id: 2.2.3
+      title: Identity granularity
+      requirement: |-
+        The granularity level of identity data collected or processed per feature must be the least linkable level at which the feature remains functional, selected from the following ordered scale (least to most linkable):
+        Anonymous → Aggregated (e.g. Role or cohort) → Pseudonym (system-generated, not reversible without key) → Display name (user-chosen) → First name → Full name → Full name + unique identifier (e.g. national ID, email).
+      guidance: '"Least linkable" rather than "least precise" — reflects that identity minimization is about reducing linkability to a natural person, not just data volume.'
+      verification: 'Inspect: for each feature processing identity data, confirm the granularity level is documented and justified. Any feature using full name + identifier where a pseudonym would suffice is a finding.'
+      level: L2
+      type: APP
+    - id: 2.2.4
+      title: Photo metadata
+      requirement: |-
+        The metadata retained with a photo per feature must be the least identifying level at which the feature remains functional, selected from the following ordered scale (least to most identifying), for example:
+        None → Rendering-only (orientation, colour profile, dimensions) → Capture date → Precise capture timestamp → Full details with embedded GPS location.
+        OR
+        None → Rendering-only (orientation, colour profile, dimensions) → Device make/model → Device or lens serial number.
+        The selected scale can be a combination of these values.
+        Metadata outside this scale (e.g. embedded thumbnails, edit history, author fields, face or person tags) must be stripped unless the feature requires it.
+      guidance: |-
+        Strip at the earliest point, client-side where possible. Reading metadata to drive a feature and then discarding it is acceptable. Apply to all derivatives too: resized and CDN copies, and shared or exported copies. Inference from the image content itself (faces, landmarks) is covered by 2.1.4.
+
+        Photos may also contain information that may infer location, age, other personal or interpersonal identifiers.
+      verification: 'Inspect: for each feature handling photos, confirm the retained metadata level is documented and justified. Test: upload a photo seeded with GPS, serial number and author values, then check every stored, served and shared copy. Any copy retaining more than the documented level is a finding.'
+      level: L2
+      type: APP
+    - id: 2.2.5
+      title: File metadata
+      requirement: |-
+        The metadata retained with a file per feature must be the least identifying level at which the feature remains functional, selected from the following ordered scale (least to most identifying):
+        None → Technical only (type, size, encoding) → Coarse timestamps → Precise timestamps → Producing application and version → Author or organisation name → Account, host, file-path or device identifiers → Embedded revision history, tracked changes, comments or location/network traces.
+      guidance: |-
+        Includes location inferred from metadata (network location, time zone, language region). Apply to files the application generates (exports, generated documents) as well as files users upload.
+        Metadata may also contain author identification.
+      verification: 'Inspect: for each feature handling files, confirm the retained metadata level is documented and justified. Test: submit a file seeded with author, file-path and tracked-change values, then check every stored, served and generated copy. Any copy retaining more than the documented level is a finding.'
+      level: L2
+      type: APP
+    - id: 2.2.6
+      title: Communication, call and message history
+      requirement: |-
+        The detail of communication history retained per feature must be the least detailed level at which the feature remains functional, selected independently from each of the following two ordered scales.
+
+        Interaction metadata (least to most detailed):
+        None → Delivery state only → Aggregate counts and durations → Per-contact counts → Per-interaction metadata (participants, timestamp, duration) → Per-interaction metadata with device or location.
+
+        Content (least to most revealing):
+        None (relayed, then discarded) → Content-free indicators (e.g. attachment present, type, size) → Hash of content (keyed or salted) → Derived labels only (e.g. spam flag, language, detected entities) → Redacted or truncated excerpt → Text only → Text with attachments and media → Text, attachments and surrounding context (quoted history, edit and deletion history, link-preview data).
+      guidance: |-
+        Metadata alone reveals relationships and behavioural patterns, so a lower scale level is not automatically harmless. Counterparties are data subjects who may never have used the application. Access to contacts or an address book is a separate collection decision requiring its own justification under 2.1.1.
+
+        Hashes: a hash supports integrity checks, deduplication and abuse matching without keeping the text. It is not anonymous, though. Low-entropy content can be recovered by guessing, and any hash can confirm that a known message was sent or link two copies of the same message. Use a keyed or salted hash, and treat perceptual hashes of media as closer to the content than to a hash.
+        Attachments: these are often more revealing than the message text. Select their level on its own, and apply 2.2.5 to the files themselves.
+        Derived stores: search indexes, push-notification payloads (which pass through third-party gateways), caches, link-preview fetches, drafts, and edit and deletion history all hold content. They count towards the retained level.
+      verification: |-
+        Inspect: review the data model and confirm the retained history level per feature is documented and justified.
+        Test: after a communication occurs, and again after its content is deleted, confirm nothing richer than the documented level is retained. Any feature retaining per-interaction metadata or content where counts would suffice is a finding.
+        Test by sending a message with an attachment and a link, then edit it and delete it.
+        Check the database, the search index, caches, notification payloads and backups.
+        Anything retained above the documented content level, such as an orphaned attachment or a surviving pre-edit version, is a finding.
+      level: L2
+      type: APP
+    - id: 2.2.7
+      title: Live streaming data
+      requirement: |-
+        The fidelity of live stream data (audio, video, sensor, or telemetry) collected or processed per feature must be the least detailed level at which the feature remains functional, selected from the following ordered scale (least to most detailed):
+        Derived events only → Reduced fidelity (lower sample rate, resolution, bit depth, or cropped region) → Full fidelity, processed in memory only → Full fidelity, persisted.
+      guidance: Prefer deriving events on the device rather than transmitting the stream. Bound capture to active use of the feature rather than continuous capture. Discarding raw stream data after processing is covered by 3.5.3.
+      verification: 'Inspect: review the capture configuration and confirm the fidelity level is documented and justified. Test: observe network traffic while the feature is idle (no stream data sent) and while active (fidelity matches the documented level). Any capture or transmission above the documented level is a finding.'
+      level: L2
+      type: APP

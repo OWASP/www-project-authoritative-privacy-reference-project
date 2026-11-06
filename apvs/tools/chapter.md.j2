@@ -1,0 +1,73 @@
+---
+layout: default
+title: "Chapter {{ c.number }}: {{ c.title }}"
+nav_order: {{ c.number + 1 }}
+---
+
+# Chapter {{ c.number }}. {{ c.title }}
+
+<div markdown="1" style="border-left:4px solid #b7791f;background:rgba(183,121,31,.10);padding:.6em 1em;margin:1em 0;border-radius:4px;">
+<strong>{{ status.headline }}</strong>
+{{ status.chapter_pages }}
+</div>
+
+{{ c.summary | md }}
+
+## About this chapter
+
+{{ c.preface | md }}
+
+## Sections at a glance
+
+| Section | Title | Requirements | <span style="color:#1a7f37">L1</span> | <span style="color:#9a6700">L2</span> | <span style="color:#8250df">L3</span> |
+|---|---|---:|---:|---:|---:|
+{% for s in c.sections -%}
+| [{{ s.id }}](#section-{{ s.id | replace('.', '-') }}) | {{ s.title }} | {{ s.requirements | length }} | {{ s.requirements | selectattr('level', 'equalto', 'L1') | list | length }} | {{ s.requirements | selectattr('level', 'equalto', 'L2') | list | length }} | {{ s.requirements | selectattr('level', 'equalto', 'L3') | list | length }} |
+{% endfor %}
+
+{% for s in c.sections %}
+---
+
+<a id="section-{{ s.id | replace('.', '-') }}"></a>
+## {{ s.id }} {{ s.title }}
+
+{{ s.explanation | md }}
+
+| ID | Requirement | Level | Type |
+|---|---|:---:|:---:|
+{% for r in s.requirements -%}
+| [{{ r.id }}](#req-{{ r.id | replace('.', '-') }}) | {{ r.title | cell }} | {{ r.level | dot_level }} | `{{ r.type }}` |
+{% endfor %}
+
+{% for r in s.requirements %}
+<a id="req-{{ r.id | replace('.', '-') }}"></a>
+### {{ r.id }} {{ r.title }}
+
+{{ r.level | badge_level }} {{ r.type | badge_type }}
+
+**Requirement**
+
+{% if r.requirement %}{{ r.requirement | md }}{% else %}<span style="opacity:.6"><em>Not yet provided.</em></span>{% endif %}
+
+<div markdown="1" style="border-left:4px solid #b7791f;background:rgba(183,121,31,.08);padding:.4em 1em;margin:.8em 0;border-radius:4px;font-style:italic;">
+<strong style="font-style:normal">Guidance</strong> <span style="font-style:normal;font-size:.8em;opacity:.75">(beta)</span>
+
+{% if r.guidance %}{{ r.guidance | md }}{% else %}Not yet provided.{% endif %}
+
+</div>
+
+<div markdown="1" style="border-left:4px solid #6b7fa6;background:rgba(107,127,166,.10);padding:.4em 1em;margin:.8em 0;border-radius:4px;font-style:italic;">
+<strong style="font-style:normal">Verification</strong> <span style="font-style:normal;font-size:.8em;opacity:.75">(beta)</span>
+
+{% if r.verification %}{{ r.verification | md }}{% else %}Not yet provided.{% endif %}
+
+</div>
+
+{% endfor %}
+{% endfor %}
+
+---
+
+<p style="opacity:.7;font-size:.9em">
+<a href="00-introduction.md">Introduction</a>{% if prev %} · <a href="{{ prev.file }}">Previous: {{ prev.title }}</a>{% endif %}{% if next %} · <a href="{{ next.file }}">Next: {{ next.title }}</a>{% else %} · <a href="{{ appendix.file }}">Next: {{ appendix.label }}</a>{% endif %}
+</p>

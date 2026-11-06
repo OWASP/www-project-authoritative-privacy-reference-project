@@ -1,0 +1,116 @@
+---
+layout: default
+title: "Appendix A: Regulatory Mapping"
+nav_order: 99
+---
+
+# Appendix A. Regulatory Mapping
+
+<div markdown="1" style="border-left:4px solid #b7791f;background:rgba(183,121,31,.10);padding:.6em 1em;margin:1em 0;border-radius:4px;">
+<strong>{{ status.headline }}</strong>
+{{ status.appendix_page }}
+</div>
+
+{{ m.lead | para }}
+
+{{ m.coverage_legend | para }}
+
+## A.1 GDPR
+
+{{ m.gdpr.intro | md }}
+
+### Overview
+
+| Article | Title | Coverage | APVS requirements |
+|---|---|---|---|
+{% for a in m.gdpr.articles -%}
+| [{{ a.article }}](#{{ a.article | anchor('gdpr') }}) | {{ a.title | cell }} | {{ a.coverage | cov }} | {% for x in a.apvs %}[{{ x.id }}]({{ x.id | reqlink }}){% if not loop.last %}, {% endif %}{% endfor %} |
+{% endfor %}
+
+{% for grp in m.gdpr.groups %}
+### {{ grp }}
+
+{% for a in m.gdpr.articles if a.group == grp %}
+<a id="{{ a.article | anchor('gdpr') }}"></a>
+#### {{ a.article }} {{ a.title }}
+
+{{ a.coverage | cov }}
+
+{{ a.obligation | md }}
+
+| APVS requirement | How it helps |
+|---|---|
+{% for x in a.apvs -%}
+| [{{ x.id }} {{ reqs[x.id].title | cell }}]({{ x.id | reqlink }}) | {{ x.note | cell }} |
+{% endfor %}
+
+{% endfor %}
+{% endfor %}
+
+{% if m.gdpr.not_covered %}
+### GDPR provisions without an APVS counterpart
+
+| Article | Title | Why |
+|---|---|---|
+{% for n in m.gdpr.not_covered -%}
+| {{ n.article | cell }} | {{ n.title | cell }} | {{ n.reason | cell }} |
+{% endfor %}
+{% endif %}
+
+---
+
+## A.2 CCPA and CPRA
+
+{{ m.ccpa_cpra.intro | md }}
+
+### Overview
+
+| Provision | Title | Coverage | APVS requirements |
+|---|---|---|---|
+{% for a in m.ccpa_cpra.provisions -%}
+| [{{ a.citation | cell }}](#{{ a.citation | anchor('ccpa') }}) | {{ a.title | cell }} | {{ a.coverage | cov }} | {% for x in a.apvs %}[{{ x.id }}]({{ x.id | reqlink }}){% if not loop.last %}, {% endif %}{% endfor %} |
+{% endfor %}
+
+{% for grp in m.ccpa_cpra.groups %}
+### {{ grp }}
+
+{% for a in m.ccpa_cpra.provisions if a.group == grp %}
+<a id="{{ a.citation | anchor('ccpa') }}"></a>
+#### {{ a.citation }} {{ a.title }}
+
+{{ a.coverage | cov }}
+
+{{ a.obligation | md }}
+
+| APVS requirement | How it helps |
+|---|---|
+{% for x in a.apvs -%}
+| [{{ x.id }} {{ reqs[x.id].title | cell }}]({{ x.id | reqlink }}) | {{ x.note | cell }} |
+{% endfor %}
+
+{% endfor %}
+{% endfor %}
+
+{% if m.ccpa_cpra.not_covered %}
+### CCPA and CPRA provisions without an APVS counterpart
+
+| Provision | Title | Why |
+|---|---|---|
+{% for n in m.ccpa_cpra.not_covered -%}
+| {{ n.citation | cell }} | {{ n.title | cell }} | {{ n.reason | cell }} |
+{% endfor %}
+{% endif %}
+
+---
+
+## A.3 From requirement to regulation
+
+| Requirement | Title | GDPR | CCPA and CPRA |
+|---|---|---|---|
+{% for r in reqs.values() -%}
+| [{{ r.id }}]({{ r.id | reqlink }}) | {{ r.title | cell }} | {{ rev.gdpr.get(r.id, []) | join(', ') }} | {{ rev.ccpa.get(r.id, []) | join(', ') }} |
+{% endfor %}
+
+---
+
+<p style="opacity:.7;font-size:.9em"><a href="00-introduction.md">Introduction</a> · <a href="{{ prev.file }}">Previous: {{ prev.title }}</a></p>
