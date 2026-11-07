@@ -1,0 +1,27 @@
+audience:
+  - breaker
+  - builder
+leaders:
+  - name: Kim Wuyts
+    email: kim.wuyts@owasp.org
+  - name: Izar Tarandach
+    email: izar.tarandach@owasp.org
+    github: izar
+  - name: Matthew Coles
+    email: matthew.coles@owasp.org
+  - name: Avi Douglen
+    email: avi.douglen@owasp.org
+    github: avidouglen
+level: 2
+name: OWASP Authoritative Privacy Reference Project
+pitch: A very brief, one-line description of your project
+repositories:
+  - name: www-project-authoritative-privacy-reference-project
+    url: https://github.com/OWASP/www-project-authoritative-privacy-reference-project
+    description: OWASP Foundation web repository
+tags:
+  - example-tag
+  - custom-tag-1
+  - custom-tag-2
+type: documentation
+website: https://owasp.org/www-project-authoritative-privacy-reference-project
